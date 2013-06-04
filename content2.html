@@ -1,0 +1,929 @@
+<html>
+
+
+
+
+
+
+
+    <head>
+
+
+
+
+
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+
+
+
+
+
+
+        <link rel="stylesheet" href="jquery/jquery.mobile-1.1.0.min.css" />
+
+
+
+
+
+
+
+        <link rel="stylesheet" href="theme.css" />
+
+
+
+
+
+
+
+        <script src="cordova-2.0.0.js"></script>
+
+
+
+
+
+
+
+		<script type="text/javascript" src="phonegap.js"></script>
+
+
+
+
+
+
+
+        <script src="jquery-1.6.4.min.js"></script>
+
+
+
+
+
+
+
+        <script src="jquery/jquery.mobile-1.1.0.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script type="text/javascript" charset="utf-8" src="childbrowser.js"></script>
+
+
+
+
+
+
+
+        <script type="text/javascript">
+
+
+
+
+
+
+
+	                        
+
+
+
+
+
+
+
+            $(document).ready(function() {
+
+
+
+
+
+
+
+                document.addEventListener("deviceready",onDeviceReadyChildBrowser,false);
+
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+            function onDeviceReadyChildBrowser() {
+
+
+
+
+
+
+
+                $(document).ready(function() {
+
+
+
+
+
+
+
+                    $("a.open-child-browser").click(function() {
+
+
+
+
+
+
+
+                        var goUrl = $(this).attr("data-gourl");
+
+
+
+
+
+
+
+                        window.plugins.childBrowser.showWebPage(goUrl, { showLocationBar: true });
+
+
+
+
+
+
+
+                        return false;
+
+
+
+
+
+
+
+                    });
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+                    $("a.open-external-browser").click(function() {
+
+
+
+
+
+
+
+                        var goUrl = $(this).attr("data-gourl");
+
+
+
+
+
+
+
+                        window.plugins.childBrowser.openExternal(goUrl);
+
+
+
+
+
+
+
+                        return false;
+
+
+
+
+
+
+
+                    });
+
+
+
+
+
+
+
+                });
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+        <script type="text/javascript" src="PushNotification.js"></script>
+
+<script type="text/javascript">
+
+    var pushNotification;
+
+    var app_id = "40";
+
+    var message;
+
+            
+
+    function onDeviceReady() {
+
+                
+
+        pushNotification = window.plugins.pushNotification;
+
+				
+
+        if (device.platform == 'android' || device.platform == 'Android') {
+
+            pushNotification.register(successHandler, errorHandler, {"senderID":"804214045278","ecb":"onNotificationGCM"});
+
+        } else {
+
+            pushNotification.register(tokenHandler, errorHandler, {"badge":"true","sound":"true","alert":"true","ecb":"onNotificationAPN"});
+
+        }
+
+    }
+
+            
+
+    /* handle APNS notifications for iOS*/
+
+    function onNotificationAPN(event) {
+
+        if (event.alert) {
+
+            navigator.notification.alert(event.alert);
+
+        }
+
+                
+
+        if (event.sound) {
+
+            var snd = new Media(event.sound);
+
+            snd.play();
+
+        }
+
+                
+
+        if (event.badge) {
+
+            pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
+
+        }
+
+    }
+
+            
+
+            
+
+    function onNotificationGCM(e) {
+
+        if(e.event == 'message'){
+
+            if(e.payload.app_id == app_id)
+
+                alert(e.message);
+
+        }
+
+    }
+
+            
+
+    function tokenHandler (result) {
+
+        /*$("#app-status-ul").append('<li>token: '+ result +'</li>');*/
+
+        /* Your iOS push server needs to know the token before it can push to this device*/
+
+        /* here is where you might want to send it the token for later use.*/
+
+    }
+
+			
+
+    function successHandler (result) {
+
+        /*$("#app-status-ul").append('<li>success:'+ result +'</li>');*/
+
+    }
+
+            
+
+    function errorHandler (error) {
+
+        /*alert("function_errorHandler");*/
+
+        /*$("#app-status-ul").append('<li>error:'+ error +'</li>');*/
+
+    }
+
+            
+
+    document.addEventListener('deviceready', onDeviceReady, true);
+
+
+
+</script>
+
+
+
+    </head>
+
+
+
+
+
+
+
+    <body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div data-role="page" data-add-back-btn="true">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div data-role="header">
+
+
+
+
+
+
+
+                <div class="ui-bar ui-bar-a"><center><h1>Services</h1></center>
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+            <a id="homeButton" href="index.html" rel="external" ><img src="./home.png" alt="Home" /></a>
+
+
+
+            <style type="text/css"> 
+
+
+
+                #homeButton{position: relative;top: -28px;left: 5px;width: 75px;height: 18px;display: block;text-align: center;}
+
+
+
+                #homeButton:active{ opacity: 0.7; } 
+
+
+
+            </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div data-role="content">
+
+
+
+
+
+
+
+                
+
+
+
+
+
+                <style type="text/css">
+
+                    .content_navigation_content div,.content_navigation_content p,.content_navigation_content ul,.content_navigation_content h2,.content_navigation_content h3,.content_navigation_content h4,.content_navigation_content img{
+
+                        padding:0px; 
+
+                        margin:0px;
+
+                    }
+
+                    .content_navigation_link h3 a{
+
+                        text-decoration:none;
+
+                    }
+
+                    .content_navigation_link{
+
+                        width: 100%;
+
+                        text-align: center;
+
+                        line-height: 50px;
+
+                        display: block;
+
+                        height: 50px;
+
+                        border-bottom: 1px solid white;
+
+                    }
+
+                    #content_navigation_content{
+
+                        /*                        overflow: hidden;
+
+                                                width: 200px;*/
+
+                        background: grey;
+
+                        margin: 0 auto;
+
+                        border-radius: 10px;
+
+                        /*                        position: fixed;
+
+                                                left: 50%;
+
+                                                top: 40px;*/
+
+                        /*margin-left: -100px;*/
+
+                        border-radius: 10px; 
+
+                        box-shadow: 8px 8px 8px silver;
+
+                    }
+
+                    .content_navigation_link a{
+
+                        color:white !important;
+
+                        display:block;
+
+                    }
+
+                    .content_navigation_link:hover, .content_navigation_link:active{
+
+                        background: #27a1c5;
+
+                        cursor:pointer;
+
+                    }
+
+                    .active{
+
+                        background: #27a1c5;
+
+                        cursor:pointer;
+
+                    }
+
+                    .content_block{
+
+                        word-wrap: break-word;
+
+                        display: none;
+
+                    }
+
+                    #navigationContent{
+
+                        /*position: relative;*/
+
+                    }
+
+                    .content_navigation_link:first-child{
+
+                        border-radius: 10px 10px 0px 0px; 
+
+                    }
+
+                    .content_navigation_link:last-child{
+
+                        border-radius: 0px 0px 10px 10px; 
+
+                    }
+
+                    .content_navigation_link .active{
+
+                        background: none;
+
+                    }
+
+                    #backMenu{
+
+                        position: fixed;
+
+                        bottom: 75px;
+
+                        right: 10px; 
+
+                        opacity: 0.5;
+
+                        display: none;
+
+                    }
+
+                    #backMenu:hover,#backMenu:active{
+
+                        opacity: 1;
+
+                        cursor: pointer;
+
+                    }
+
+                </style>
+
+                <div id="navigationContent">
+
+                    <div id="content_navigation_content" class="content_navigation_content" style="display: none; ">
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article1" class="ui-link">Lawn Care</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article2" class="ui-link">FERTILIZATION</a></h3>
+
+                        </div>
+
+                        <div class="content_navigation_link">
+
+                            <h3><a href="#article3" class="ui-link">Weed Control</a></h3>
+
+                        </div>
+
+                    </div>
+
+                    <div id="content_blocks">
+
+
+
+
+
+                        <div class="content_block" id="article1" style="display: block; "><h3 class="analysis" style="margin: 0px 0px 0px 23px; padding: 20px 60px; border: 0px; outline: 0px; vertical-align: baseline; background-image: url(http://media.trugreenlawncareoffers.com/site/trugreenlawncareoffers.com/experiences/desktop/media/images/magnifying-glass-icon.png); background-color: rgb(4, 177, 90); font-size: 20px; font-weight: bold; color: rgb(255, 255, 255); border-top-left-radius: 7px; border-top-right-radius: 7px; text-transform: uppercase; font-family: arial, sans-serif; background-position: 5px 50%; background-repeat: no-repeat no-repeat; ">HEALTHY LAWN ANALYSIS®</h3>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><br>
+
+<strong>The TruGreen Healthy Lawn Analysis® is the first step of your Healthy Lawn Plan.</strong><br>
+
+<br>
+
+A TruGreen specialist will visit your house and conduct a detailed lawn analysis. He will evaluate variables such as climate, grass and soil types. Extra consideration will be given to problem areas, diseases, soil compaction, pet damage, and shade and sun exposure.</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; ">The TruGreen Healthy Lawn Analysis gives the specialist a valuable understanding of your lawn’s strengths and challenges, and serves as the basis of a customized plan that will help your lawn reach its maximum potential.</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><br>
+
+<strong>What to expect?</strong></p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><br>
+
+With a program developed to address your lawn’s specific challenges, TruGreen can help you enjoy dramatic improvements. You will receive a tailored lawn care plan that will detail exactly what your lawn needs during the different seasons of the year.</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><br>
+
+—Keeping your lawn green and healthy doesn't have to be expensive - a system from TruGreen is more affordable than you think. <strong>Call today to find out more!</strong></p>
+
+</div>
+
+                        <div class="content_block" id="article2"><h3 class="fertilizer" style="margin: 0px 0px 0px 23px; padding: 20px 60px; border: 0px; outline: 0px; vertical-align: baseline; background-image: url(http://media.trugreenlawncareoffers.com/site/trugreenlawncareoffers.com/experiences/desktop/media/images/fertilizer-icon.png); background-color: rgb(4, 177, 90); font-size: 20px; font-weight: bold; color: rgb(255, 255, 255); border-top-left-radius: 7px; border-top-right-radius: 7px; text-transform: uppercase; font-family: arial, sans-serif; background-position: 5px 50%; background-repeat: no-repeat no-repeat; ">FERTILIZATION</h3>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; ">&nbsp;</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><span style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-weight: bold; display: block; background-position: initial initial; background-repeat: initial initial; ">The most important thing you can do for your lawn is to feed it.</span></p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; ">The TruGreen Healthy Lawn Analysis customizes the best fertilizer to fit your lawn’s needs. TruGreen fertilizer will help your lawn get a rich, dark green turf color. It keeps your lawn healthy and thick while keeping the weeds out. As part of the TruGreen Healthy Lawn care plan offered in our year-round Healthy Lawn Plan, we continue to apply fertilizer as needed at key points in every season to stimulate and maintain growth.</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><em style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-size: 15px; background-position: initial initial; background-repeat: initial initial; ">—Fertilizing your yard isn't the only thing you can do to maintain a healthy, vibrant lawn. TruGreen offers a wide array of service options designed to keep your grass growing all throughout the year - wouldn't it be nice to leave worrying about your yard to the professionals?</em></p>
+
+</div>
+
+                        <div class="content_block" id="article3"><h3 class="weed-control" style="margin: 0px 0px 0px 23px; padding: 20px 60px; border: 0px; outline: 0px; vertical-align: baseline; background-image: url(http://media.trugreenlawncareoffers.com/site/trugreenlawncareoffers.com/experiences/desktop/media/images/weed-control-icon.png); background-color: rgb(4, 177, 90); font-size: 20px; font-weight: bold; color: rgb(255, 255, 255); border-top-left-radius: 7px; border-top-right-radius: 7px; text-transform: uppercase; font-family: arial, sans-serif; background-position: 5px 50%; background-repeat: no-repeat no-repeat; ">WEED CONTROL</h3>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; ">&nbsp;</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><span style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-weight: bold; display: block; background-position: initial initial; background-repeat: initial initial; ">Weeds are simply defined as unwanted plants.</span></p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; ">Typically, weeds that are growing well in your lawn are native plants that have room to grow in the environmental or cultural conditions that favor their development. TruGreen Healthy Lawn Analysis will identify what type of weeds are growing in your backyard – weeds such as dandelions and crabgrass. No single herbicide, weeding technique or lawn care tactic works against all weeds. Only TruGreen knows how to customize a treatment plan based on the exact types of weeds in your lawn. That’s why weed control is built into your customized year-round TruGreen Healthy Lawn Plan.</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; ">The results you receive from the TruGreen Healthy Lawn Analysis will recommend the optimal time to apply pre-emergent weed control to help keep weeds from showing up in the first place. Additionally, TruGreen follows up with applications throughout the year to eliminate weeds that do pop up and keep them from spreading.</p>
+
+
+
+<p style="margin: 0px; padding: 0px 0px 10px; border: 0px; outline: 0px; vertical-align: baseline; background-color: rgb(177, 192, 201); color: rgb(85, 85, 85); line-height: 18px; font-family: arial, sans-serif; "><em style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-size: 15px; background-position: initial initial; background-repeat: initial initial; ">—The sound lawn care practices TruGreen provides will promote a healthy, vigorous turf which is able to prevent and compete with weed invasions.</em></p>
+
+</div>
+
+                    </div>
+
+                    <img id="backMenu" src="./backMenu.png">
+
+                </div>
+
+                
+
+
+
+            <script type="text/javascript" >
+
+                    $(document).ready(function() {
+
+
+
+//                        $(document).click(function(e) {
+
+//                            if ($(e.target).parents().filter('#content_navigation_content').length < 1 && $(e.target).attr('id') != 'content_navigation_content' && $(e.target).attr('id') != 'backMenu') {
+
+//                                $('#content_navigation_content').fadeOut(500);
+
+//                                $('#backMenu').fadeIn(500);
+
+//                            }
+
+//                        });
+
+//
+
+
+
+
+
+
+
+                        var articleNumber;
+
+
+
+
+
+
+
+                        $('.backClick').click(function() {
+
+                            $('#content_navigation_content').show();
+
+                            $('#article' + articleNumber).hide();
+
+                        });
+
+
+
+
+
+
+
+
+
+                        $('.content_navigation_link h3 a').click(function() {
+
+                            $('#content_navigation_content').hide();
+
+                            articleNumber = $(this).attr('href').substr(-1);
+
+                            $('.content_navigation_link').removeClass('active');
+
+                            $(this).parent().parent().addClass('active');
+
+                            $('#article' + articleNumber).show();
+
+//                            setTimeout(function() {
+
+//                                $('#content_navigation_content').fadeOut(500);
+
+//                                $('#backMenu').fadeIn(500);
+
+//                                $('#article' + articleNumber).slideDown(500);
+
+//                            }, 500);
+
+
+
+                        });
+
+//                        $('#backMenu').click(function() {
+
+//                            $('#content_navigation_content').fadeIn(500);
+
+//                            $('#backMenu').fadeOut(500);
+
+//                        });
+
+
+
+                    });
+
+                </script>
+
+
+
+
+
+
+
+            </div><!-- /content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <style> .nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; width: 60px!important;}		.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }#tab1 .ui-icon { background:  url("icons_tech_1579.png") 50% 50% no-repeat; background-size: 50px 50px; }#tab2 .ui-icon { background:  url("icons_communication_1092.png") 50% 50% no-repeat; background-size: 50px 50px; }  a[href="notification.html"] .ui-icon { background:  url("icon(91).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content2.html"] .ui-icon { background:  url("icon(98).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; }   a[href="content.html"] .ui-icon { background:  url("icon(46).png") 50% 50% no-repeat !important;background-size: 30px 30px !important; } #tab3 .ui-icon { background:  url("64Px_-_504-11.png") 50% 50% no-repeat; background-size: 30px 30px; }#tab4 .ui-icon { background:  url("64Px_-_504-210.png") 50% 50% no-repeat; background-size: 30px 30px; }#tab5 .ui-icon { background:  url("more.png") 50% 50% no-repeat; background-size: 30px 30px; } .ui-content{ word-wrap: break-word; } </style>
+
+
+
+
+
+
+
+            <div data-role="footer" data-position="fixed" class="nav-glyphish-example" data-id="myfooter" data-theme="a" data-tap-toggle="false"><div data-role="navbar" class="nav-glyphish-example"><ul><li><a href="aboutUs.html" id="tab2" data-icon="custom" rel="external"  data-gourl="aboutUs.html" class="" onclick="window.plugins.childbrowser.openExternal('aboutUs.html')">About Us</a></li><li><a href="http://m.facebook.com/?v=feed" id="tab2" data-icon="custom" rel="external"  data-gourl="http://m.facebook.com/?v=feed" class="" onclick="window.plugins.childbrowser.openExternal('http://m.facebook.com/?v=feed')">Facebook</a></li><li><a href="content.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content.html" class="" onclick="window.plugins.childbrowser.openExternal('content.html')">Free Lawn Check</a></li><li><a href="content2.html" id="tab2" data-icon="custom" rel="external"  data-gourl="content2.html" class="" onclick="window.plugins.childbrowser.openExternal('content2.html')">Services</a></li><li><a href="more.html" id="tab5" data-icon="custom" rel="external">More</a></li></ul></div></div>
+
+
+
+
+
+
+
+        </div>	
+
+
+
+
+
+
+
+    </body>
+
+
+
+
+
+
+
+</html>
